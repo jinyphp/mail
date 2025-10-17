@@ -1,0 +1,31 @@
+{
+    "name": "jiny/mail",
+    "description": "Jiny Mail System Package",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jiny",
+            "email": "admin@jiny.dev"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^12.0",
+        "jiny/admin": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jiny\\Mail\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Jiny\\Mail\\JinyMailServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
