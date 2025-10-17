@@ -34,7 +34,7 @@ class UpdateController extends Controller
         ]);
 
         return redirect()
-            ->route('admin.auth.mail.templates.show', $template->id)
+            ->route('admin.mail.templates.show', $template->id)
             ->with('success', '메일 템플릿이 성공적으로 수정되었습니다.');
     }
 }

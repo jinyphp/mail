@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
         button.disabled = true;
         button.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>저장 중...';
 
-        fetch('{{ route("admin.auth.mail.setting.update") }}', {
+        fetch('{{ route("admin.mail.setting.update") }}', {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -392,7 +392,7 @@ document.addEventListener('DOMContentLoaded', function() {
         sendingIndicator.classList.remove('d-none');
         resultMessage.classList.add('d-none');
 
-        fetch('{{ route("admin.auth.mail.setting.test") }}', {
+        fetch('{{ route("admin.mail.setting.test") }}', {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}',

@@ -25,7 +25,7 @@
                     <p class="text-muted mb-0">메일 발송에 사용할 템플릿을 관리합니다.</p>
                 </div>
                 <div>
-                    <a href="{{ route('admin.auth.mail.templates.create') }}" class="btn btn-primary">
+                    <a href="{{ route('admin.mail.templates.create') }}" class="btn btn-primary">
                         <i class="bi bi-plus-circle"></i> 새 템플릿 추가
                     </a>
                 </div>
@@ -52,7 +52,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form method="GET" action="{{ route('admin.auth.mail.templates.index') }}">
+                    <form method="GET" action="{{ route('admin.mail.templates.index') }}">
                         <div class="row g-3 align-items-end">
                             <div class="col-md-4">
                                 <label for="search" class="form-label">검색</label>
@@ -152,11 +152,11 @@
                                     </td>
                                     <td>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <a href="{{ route('admin.auth.mail.templates.show', $template->id) }}"
+                                            <a href="{{ route('admin.mail.templates.show', $template->id) }}"
                                                class="btn btn-outline-info" title="상세보기">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <a href="{{ route('admin.auth.mail.templates.edit', $template->id) }}"
+                                            <a href="{{ route('admin.mail.templates.edit', $template->id) }}"
                                                class="btn btn-outline-warning" title="수정">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
@@ -182,7 +182,7 @@
                         <div class="text-muted">
                             <i class="bi bi-inbox" style="font-size: 3rem;"></i>
                             <p class="mt-3">등록된 템플릿이 없습니다.</p>
-                            <a href="{{ route('admin.auth.mail.templates.create') }}" class="btn btn-primary">
+                            <a href="{{ route('admin.mail.templates.create') }}" class="btn btn-primary">
                                 <i class="bi bi-plus-circle"></i> 첫 번째 템플릿 추가하기
                             </a>
                         </div>
@@ -230,7 +230,7 @@ document.getElementById('confirm-delete').addEventListener('click', function() {
     if (deleteTemplateId) {
         const form = document.createElement('form');
         form.method = 'POST';
-        form.action = `{{ route('admin.auth.mail.templates.index') }}/${deleteTemplateId}`;
+        form.action = `{{ route('admin.mail.templates.index') }}/${deleteTemplateId}`;
 
         const csrfToken = document.createElement('input');
         csrfToken.type = 'hidden';

@@ -1,6 +1,6 @@
 <?php
 
-namespace Jiny\Mail\Http\Controllers\Admin\AuthUsers;
+namespace Jiny\Mail\Http\Controllers\Admin\Users;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;

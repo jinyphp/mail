@@ -116,7 +116,7 @@
                     <!-- 빠른 검색 -->
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <form method="GET" action="{{ route('admin.auth.mail.logs.index') }}" class="d-flex">
+                            <form method="GET" action="{{ route('admin.mail.logs.index') }}" class="d-flex">
                                 <div class="input-group">
                                     <input type="text" name="search" class="form-control" placeholder="이메일, 제목, 수신자명 검색..." value="{{ $filters['search'] ?? '' }}">
                                     <button class="btn btn-outline-secondary" type="submit">
@@ -127,19 +127,19 @@
                         </div>
                         <div class="col-md-6 text-end">
                             <div class="btn-group btn-group-sm" role="group">
-                                <a href="{{ route('admin.auth.mail.logs.index', ['status' => 'sent']) }}"
+                                <a href="{{ route('admin.mail.logs.index', ['status' => 'sent']) }}"
                                    class="btn {{ request('status') === 'sent' ? 'btn-success' : 'btn-outline-success' }}">
                                     성공
                                 </a>
-                                <a href="{{ route('admin.auth.mail.logs.index', ['status' => 'failed']) }}"
+                                <a href="{{ route('admin.mail.logs.index', ['status' => 'failed']) }}"
                                    class="btn {{ request('status') === 'failed' ? 'btn-danger' : 'btn-outline-danger' }}">
                                     실패
                                 </a>
-                                <a href="{{ route('admin.auth.mail.logs.index', ['type' => 'test']) }}"
+                                <a href="{{ route('admin.mail.logs.index', ['type' => 'test']) }}"
                                    class="btn {{ request('type') === 'test' ? 'btn-info' : 'btn-outline-info' }}">
                                     테스트
                                 </a>
-                                <a href="{{ route('admin.auth.mail.logs.index') }}"
+                                <a href="{{ route('admin.mail.logs.index') }}"
                                    class="btn {{ !request()->hasAny(['status', 'type', 'search', 'date_from', 'date_to']) ? 'btn-secondary' : 'btn-outline-secondary' }}">
                                     전체
                                 </a>
@@ -155,34 +155,34 @@
                             @if($filters['type'])
                                 <span class="badge bg-light text-dark border">
                                     타입: {{ $filters['type'] }}
-                                    <a href="{{ route('admin.auth.mail.logs.index', array_diff_key(request()->query(), ['type' => ''])) }}" class="text-decoration-none ms-1">×</a>
+                                    <a href="{{ route('admin.mail.logs.index', array_diff_key(request()->query(), ['type' => ''])) }}" class="text-decoration-none ms-1">×</a>
                                 </span>
                             @endif
                             @if($filters['status'])
                                 <span class="badge bg-light text-dark border">
                                     상태: {{ $filters['status'] }}
-                                    <a href="{{ route('admin.auth.mail.logs.index', array_diff_key(request()->query(), ['status' => ''])) }}" class="text-decoration-none ms-1">×</a>
+                                    <a href="{{ route('admin.mail.logs.index', array_diff_key(request()->query(), ['status' => ''])) }}" class="text-decoration-none ms-1">×</a>
                                 </span>
                             @endif
                             @if($filters['date_from'])
                                 <span class="badge bg-light text-dark border">
                                     시작일: {{ $filters['date_from'] }}
-                                    <a href="{{ route('admin.auth.mail.logs.index', array_diff_key(request()->query(), ['date_from' => ''])) }}" class="text-decoration-none ms-1">×</a>
+                                    <a href="{{ route('admin.mail.logs.index', array_diff_key(request()->query(), ['date_from' => ''])) }}" class="text-decoration-none ms-1">×</a>
                                 </span>
                             @endif
                             @if($filters['date_to'])
                                 <span class="badge bg-light text-dark border">
                                     종료일: {{ $filters['date_to'] }}
-                                    <a href="{{ route('admin.auth.mail.logs.index', array_diff_key(request()->query(), ['date_to' => ''])) }}" class="text-decoration-none ms-1">×</a>
+                                    <a href="{{ route('admin.mail.logs.index', array_diff_key(request()->query(), ['date_to' => ''])) }}" class="text-decoration-none ms-1">×</a>
                                 </span>
                             @endif
                             @if($filters['search'])
                                 <span class="badge bg-light text-dark border">
                                     검색: {{ $filters['search'] }}
-                                    <a href="{{ route('admin.auth.mail.logs.index', array_diff_key(request()->query(), ['search' => ''])) }}" class="text-decoration-none ms-1">×</a>
+                                    <a href="{{ route('admin.mail.logs.index', array_diff_key(request()->query(), ['search' => ''])) }}" class="text-decoration-none ms-1">×</a>
                                 </span>
                             @endif
-                            <a href="{{ route('admin.auth.mail.logs.index') }}" class="badge bg-danger text-decoration-none">
+                            <a href="{{ route('admin.mail.logs.index') }}" class="badge bg-danger text-decoration-none">
                                 <i class="fe fe-x me-1"></i>모든 필터 초기화
                             </a>
                         </div>
@@ -357,12 +357,12 @@
                         <p class="text-muted mb-4">
                             @if(array_filter($filters))
                                 현재 필터 조건에 맞는 메일 로그가 없습니다.<br>
-                                <a href="{{ route('admin.auth.mail.logs.index') }}" class="btn btn-outline-primary btn-sm mt-2">
+                                <a href="{{ route('admin.mail.logs.index') }}" class="btn btn-outline-primary btn-sm mt-2">
                                     <i class="fe fe-refresh-cw me-1"></i>모든 로그 보기
                                 </a>
                             @else
                                 아직 발송된 메일이 없습니다.<br>
-                                <a href="{{ route('admin.auth.mail.setting.index') }}" class="btn btn-outline-primary btn-sm mt-2">
+                                <a href="{{ route('admin.mail.setting.index') }}" class="btn btn-outline-primary btn-sm mt-2">
                                     <i class="fe fe-settings me-1"></i>메일 설정하기
                                 </a>
                             @endif
@@ -490,24 +490,24 @@
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
-                        <a href="{{ route('admin.auth.mail.logs.index', ['status' => 'failed']) }}"
+                        <a href="{{ route('admin.mail.logs.index', ['status' => 'failed']) }}"
                            class="btn btn-outline-danger btn-sm d-flex align-items-center justify-content-center">
                             <i class="fe fe-x-circle me-2"></i>실패한 메일
                         </a>
-                        <a href="{{ route('admin.auth.mail.logs.index', ['status' => 'read']) }}"
+                        <a href="{{ route('admin.mail.logs.index', ['status' => 'read']) }}"
                            class="btn btn-outline-info btn-sm d-flex align-items-center justify-content-center">
                             <i class="fe fe-eye me-2"></i>읽은 메일
                         </a>
-                        <a href="{{ route('admin.auth.mail.logs.index', ['type' => 'test']) }}"
+                        <a href="{{ route('admin.mail.logs.index', ['type' => 'test']) }}"
                            class="btn btn-outline-secondary btn-sm d-flex align-items-center justify-content-center">
                             <i class="fe fe-settings me-2"></i>테스트 메일
                         </a>
-                        <a href="{{ route('admin.auth.mail.logs.index', ['date_from' => date('Y-m-d')]) }}"
+                        <a href="{{ route('admin.mail.logs.index', ['date_from' => date('Y-m-d')]) }}"
                            class="btn btn-outline-warning btn-sm d-flex align-items-center justify-content-center">
                             <i class="fe fe-calendar me-2"></i>오늘 발송
                         </a>
                         <hr class="my-2">
-                        <a href="{{ route('admin.auth.mail.setting.index') }}"
+                        <a href="{{ route('admin.mail.setting.index') }}"
                            class="btn btn-outline-primary btn-sm d-flex align-items-center justify-content-center">
                             <i class="fe fe-mail me-2"></i>메일 설정
                         </a>
@@ -522,7 +522,7 @@
 <div class="modal fade" id="filterModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="GET" action="{{ route('admin.auth.mail.logs.index') }}">
+            <form method="GET" action="{{ route('admin.mail.logs.index') }}">
                 <div class="modal-header">
                     <h5 class="modal-title">메일 로그 필터</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -577,7 +577,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                    <a href="{{ route('admin.auth.mail.logs.index') }}" class="btn btn-outline-danger">초기화</a>
+                    <a href="{{ route('admin.mail.logs.index') }}" class="btn btn-outline-danger">초기화</a>
                     <button type="submit" class="btn btn-primary">적용</button>
                 </div>
             </form>

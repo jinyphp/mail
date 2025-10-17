@@ -6,7 +6,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('admin.auth.dashboard') }}">대시보드</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('admin.auth.mail.templates.index') }}">메일 템플릿 관리</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.mail.templates.index') }}">메일 템플릿 관리</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{ $template->name }}</li>
     </ol>
 </nav>
@@ -32,10 +32,10 @@
                 </div>
                 <div>
                     <div class="btn-group" role="group">
-                        <a href="{{ route('admin.auth.mail.templates.index') }}" class="btn btn-outline-secondary">
+                        <a href="{{ route('admin.mail.templates.index') }}" class="btn btn-outline-secondary">
                             <i class="bi bi-arrow-left"></i> 목록
                         </a>
-                        <a href="{{ route('admin.auth.mail.templates.edit', $template->id) }}" class="btn btn-warning">
+                        <a href="{{ route('admin.mail.templates.edit', $template->id) }}" class="btn btn-warning">
                             <i class="bi bi-pencil"></i> 수정
                         </a>
                         <button type="button" class="btn btn-danger"
@@ -256,7 +256,7 @@ document.getElementById('confirm-delete').addEventListener('click', function() {
     if (deleteTemplateId) {
         const form = document.createElement('form');
         form.method = 'POST';
-        form.action = `{{ route('admin.auth.mail.templates.index') }}/${deleteTemplateId}`;
+        form.action = `{{ route('admin.mail.templates.index') }}/${deleteTemplateId}`;
 
         const csrfToken = document.createElement('input');
         csrfToken.type = 'hidden';

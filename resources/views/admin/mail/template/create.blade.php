@@ -6,7 +6,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('admin.auth.dashboard') }}">대시보드</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('admin.auth.mail.templates.index') }}">메일 템플릿 관리</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.mail.templates.index') }}">메일 템플릿 관리</a></li>
         <li class="breadcrumb-item active" aria-current="page">새 템플릿 추가</li>
     </ol>
 </nav>
@@ -26,7 +26,7 @@
                     <p class="text-muted mb-0">새로운 메일 템플릿을 등록합니다.</p>
                 </div>
                 <div>
-                    <a href="{{ route('admin.auth.mail.templates.index') }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('admin.mail.templates.index') }}" class="btn btn-outline-secondary">
                         <i class="bi bi-arrow-left"></i> 목록으로 돌아가기
                     </a>
                 </div>
@@ -43,7 +43,7 @@
                     </h6>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.auth.mail.templates.store') }}" method="POST" id="template-form">
+                    <form action="{{ route('admin.mail.templates.store') }}" method="POST" id="template-form">
                         @csrf
 
                         <div class="row">
@@ -113,7 +113,7 @@
                         </div>
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{{ route('admin.auth.mail.templates.index') }}" class="btn btn-secondary me-md-2">
+                            <a href="{{ route('admin.mail.templates.index') }}" class="btn btn-secondary me-md-2">
                                 취소
                             </a>
                             <button type="submit" class="btn btn-primary" id="submit-btn">

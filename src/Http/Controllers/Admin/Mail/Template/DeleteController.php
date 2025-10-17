@@ -26,7 +26,7 @@ class DeleteController extends Controller
         }
 
         return redirect()
-            ->route('admin.auth.mail.templates.index')
+            ->route('admin.mail.templates.index')
             ->with('success', "'{$templateName}' 템플릿이 삭제되었습니다.");
     }
 }

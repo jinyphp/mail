@@ -37,7 +37,7 @@ class ResendController extends Controller
                 $authMailConfig = include $configPath;
             } else {
                 // 파일이 없으면 기본 config 사용
-                $authMailConfig = config('admin.auth.mail', [
+                $authMailConfig = config('admin.mail', [
                     'mailer' => 'smtp',
                     'host' => 'smtp.mailgun.org',
                     'port' => 587,

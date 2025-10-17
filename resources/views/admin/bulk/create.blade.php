@@ -25,10 +25,10 @@
                     <p class="text-muted mb-0">여러 사용자에게 일괄적으로 메일을 발송합니다</p>
                 </div>
                 <div>
-                    <a href="{{ route('admin.auth.mail.templates.index') }}" class="btn btn-outline-primary">
+                    <a href="{{ route('admin.mail.templates.index') }}" class="btn btn-outline-primary">
                         <i class="bi bi-gear"></i> 템플릿 관리
                     </a>
-                    <a href="{{ route('admin.auth.mail.logs.index') }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('admin.mail.logs.index') }}" class="btn btn-outline-secondary">
                         <i class="bi bi-list"></i> 메일 로그
                     </a>
                 </div>
@@ -71,7 +71,7 @@
                     </h6>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.cms.mail.send') }}" method="POST" id="bulk-mail-form">
+                    <form action="{{ route('admin.mail.bulk.send') }}" method="POST" id="bulk-mail-form">
                         @csrf
 
                         {{-- 템플릿 선택 --}}

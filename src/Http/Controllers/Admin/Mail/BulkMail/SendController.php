@@ -169,10 +169,10 @@ class SendController extends Controller
                     'fail_count' => $failCount,
                     'errors' => array_slice($errors, 0, 5), // 처음 5개 오류만 로깅
                 ]);
-                return redirect()->route('admin.cms.mail.create')->with('warning', $resultMessage);
+                return redirect()->route('admin.mail.bulk.create')->with('warning', $resultMessage);
             }
 
-            return redirect()->route('admin.cms.mail.create')->with('success', $resultMessage);
+            return redirect()->route('admin.mail.bulk.create')->with('success', $resultMessage);
 
         } catch (\Exception $e) {
             \Log::error('일괄 메일 발송 실패', [
@@ -180,7 +180,7 @@ class SendController extends Controller
                 'admin_user' => $adminUserName,
             ]);
 
-            return redirect()->route('admin.cms.mail.create')->with('error', '메일 발송 중 오류가 발생했습니다: ' . $e->getMessage());
+            return redirect()->route('admin.mail.bulk.create')->with('error', '메일 발송 중 오류가 발생했습니다: ' . $e->getMessage());
         }
     }
 

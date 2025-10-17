@@ -20,7 +20,7 @@ class AuthMailSetting extends Controller
 
     public function __construct()
     {
-        $this->route = 'admin.auth.mail.setting.index';
+        $this->route = 'admin.mail.setting.index';
     }
 
     /**
@@ -34,7 +34,7 @@ class AuthMailSetting extends Controller
             $mailSettings = include $configPath;
         } else {
             // 파일이 없으면 기본 config 사용
-            $mailSettings = config('admin.auth.mail', [
+            $mailSettings = config('admin.mail', [
                 'mailer' => env('MAIL_MAILER', 'smtp'),
                 'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
                 'port' => env('MAIL_PORT', 587),
@@ -129,7 +129,7 @@ class AuthMailSetting extends Controller
             $authMailConfig = include $configPath;
         } else {
             // 파일이 없으면 기본 config 사용
-            $authMailConfig = config('admin.auth.mail', [
+            $authMailConfig = config('admin.mail', [
                 'mailer' => 'smtp',
                 'host' => 'smtp.mailgun.org',
                 'port' => 587,

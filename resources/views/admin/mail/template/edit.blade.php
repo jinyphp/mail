@@ -6,8 +6,8 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('admin.auth.dashboard') }}">대시보드</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('admin.auth.mail.templates.index') }}">메일 템플릿 관리</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('admin.auth.mail.templates.show', $template->id) }}">{{ $template->name }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.mail.templates.index') }}">메일 템플릿 관리</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.mail.templates.show', $template->id) }}">{{ $template->name }}</a></li>
         <li class="breadcrumb-item active" aria-current="page">수정</li>
     </ol>
 </nav>
@@ -28,10 +28,10 @@
                 </div>
                 <div>
                     <div class="btn-group" role="group">
-                        <a href="{{ route('admin.auth.mail.templates.show', $template->id) }}" class="btn btn-outline-secondary">
+                        <a href="{{ route('admin.mail.templates.show', $template->id) }}" class="btn btn-outline-secondary">
                             <i class="bi bi-eye"></i> 상세보기
                         </a>
-                        <a href="{{ route('admin.auth.mail.templates.index') }}" class="btn btn-outline-secondary">
+                        <a href="{{ route('admin.mail.templates.index') }}" class="btn btn-outline-secondary">
                             <i class="bi bi-arrow-left"></i> 목록
                         </a>
                     </div>
@@ -49,7 +49,7 @@
                     </h6>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.auth.mail.templates.update', $template->id) }}" method="POST" id="template-form">
+                    <form action="{{ route('admin.mail.templates.update', $template->id) }}" method="POST" id="template-form">
                         @csrf
                         @method('PUT')
 
@@ -120,7 +120,7 @@
                         </div>
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{{ route('admin.auth.mail.templates.show', $template->id) }}" class="btn btn-secondary me-md-2">
+                            <a href="{{ route('admin.mail.templates.show', $template->id) }}" class="btn btn-secondary me-md-2">
                                 취소
                             </a>
                             <button type="submit" class="btn btn-primary" id="submit-btn">
