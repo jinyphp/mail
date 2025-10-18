@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('admin')->middleware(['web', 'admin'])->group(function () {
+Route::prefix('admin')->middleware(['web', 'auth'])->group(function () {
 
     // 메일 설정 관리 (Mail)
     Route::prefix('mail/setting')->name('admin.mail.setting.')->group(function () {

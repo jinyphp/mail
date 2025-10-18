@@ -11,12 +11,21 @@
     ],
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^12.0",
-        "jiny/admin": "^1.0"
+        "laravel/framework": "^12.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "orchestra/testbench": "^8.0|^9.0",
+        "mockery/mockery": "^1.6"
     },
     "autoload": {
         "psr-4": {
             "Jiny\\Mail\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jiny\\Mail\\Tests\\": "tests/"
         }
     },
     "extra": {
