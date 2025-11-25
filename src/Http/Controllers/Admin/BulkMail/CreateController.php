@@ -1,6 +1,6 @@
 <?php
 
-namespace Jiny\Mail\Http\Controllers\Admin\Mail\BulkMail;
+namespace Jiny\Mail\Http\Controllers\Admin\BulkMail;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
@@ -176,3 +176,5 @@ class CreateController extends Controller
         return $typeNames[$utype] ?? $utype;
     }
 }
+
+

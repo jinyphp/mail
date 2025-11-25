@@ -1,6 +1,6 @@
 <?php
 
-namespace Jiny\Mail\Http\Controllers\Admin\Mail\Template;
+namespace Jiny\Mail\Http\Controllers\Admin\Template;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
@@ -40,3 +40,5 @@ class StoreController extends Controller
             ->with('success', '메일 템플릿이 성공적으로 등록되었습니다.');
     }
 }
+
+

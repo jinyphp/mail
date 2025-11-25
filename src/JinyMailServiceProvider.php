@@ -12,9 +12,17 @@ class JinyMailServiceProvider extends ServiceProvider
     public function register(): void
     {
         // Config 등록
-        $this->mergeConfigFrom(
-            __DIR__.'/../config/mail.php', 'jiny.mail'
-        );
+        // Laravel 12 환경에서 mergeConfigFrom 사용 시 드물게 컨테이너 충돌이 보고되어
+        // 안전하게 직접 로드 후 병합/주입합니다.
+        $path = __DIR__.'/../config/mail-auth.php';
+        if (file_exists($path)) {
+            $loaded = require $path; // 배열 반환
+            $current = config('jiny.mail', []);
+            if (!is_array($current)) {
+                $current = [];
+            }
+            config()->set('jiny.mail', array_replace_recursive($current, $loaded));
+        }
     }
 
     /**

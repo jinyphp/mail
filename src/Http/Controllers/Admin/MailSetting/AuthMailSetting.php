@@ -1,6 +1,6 @@
 <?php
 
-namespace Jiny\Mail\Http\Controllers\Admin\Mail\MailSetting;
+namespace Jiny\Mail\Http\Controllers\Admin\MailSetting;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Jiny\Admin\Mail\EmailMailable;
 use Jiny\Mail\Models\AuthMailLog;
+use Jiny\Mail\Facades\UserMail;
 
 /**
  * AuthMailSetting Controller
@@ -28,22 +29,31 @@ class AuthMailSetting extends Controller
      */
     public function __invoke(Request $request)
     {
-        // jiny/auth/config/mail.php 파일에서 직접 읽기
-        $configPath = base_path('jiny/auth/config/mail.php');
-        if (file_exists($configPath)) {
-            $mailSettings = include $configPath;
-        } else {
-            // 파일이 없으면 기본 config 사용
-            $mailSettings = config('admin.mail', [
-                'mailer' => env('MAIL_MAILER', 'smtp'),
-                'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-                'port' => env('MAIL_PORT', 587),
-                'username' => env('MAIL_USERNAME', ''),
-                'password' => env('MAIL_PASSWORD', ''),
-                'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-                'from_address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-                'from_name' => env('MAIL_FROM_NAME', 'Example'),
-            ]);
+        // JSON 설정 파일만 사용
+        // 없으면 기본 템플릿을 생성하여 초기화합니다.
+        $jsonConfigPath = base_path('jiny/mail/config/mail.json');
+        if (!file_exists($jsonConfigPath) || trim((string) @File::get($jsonConfigPath)) === '') {
+            if (!file_exists(dirname($jsonConfigPath))) {
+                mkdir(dirname($jsonConfigPath), 0755, true);
+            }
+            $default = [
+                'mailer' => 'smtp',
+                'host' => 'smtp.mailgun.org',
+                'port' => 587,
+                'username' => '',
+                'password' => '',
+                'encryption' => 'tls',
+                'from_address' => 'hello@example.com',
+                'from_name' => 'Example',
+            ];
+            File::put($jsonConfigPath, json_encode($default, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        }
+
+        // JSON 읽기
+        $jsonString = File::get($jsonConfigPath);
+        $mailSettings = json_decode($jsonString, true);
+        if (!is_array($mailSettings)) {
+            $mailSettings = [];
         }
 
         return view('jiny-mail::admin.mail.setting.index', [
@@ -70,34 +80,39 @@ class AuthMailSetting extends Controller
             'from_name' => 'required|string',
         ]);
 
+        // 입력값 정규화
+        // - SMTP가 아닌 경우 port는 null 유지
+        // - encryption은 'null' 또는 빈 값일 때 실제 null로 저장
+        $mailer = $request->input('mailer');
+        $inputPort = $request->input('port');
+        $normalizedPort = $mailer === 'smtp' ? (int) $inputPort : null;
+        $encryptionInput = $request->input('encryption');
+        $normalizedEncryption = ($encryptionInput === 'null' || $encryptionInput === null || $encryptionInput === '')
+            ? null
+            : $encryptionInput;
+
         $data = [
-            'mailer' => $request->input('mailer'),
+            'mailer' => $mailer,
             'host' => $request->input('host'),
-            'port' => (int)$request->input('port'),
+            'port' => $normalizedPort,
             'username' => $request->input('username'),
             'password' => $request->input('password'),
-            'encryption' => $request->input('encryption'),
+            'encryption' => $normalizedEncryption,
             'from_address' => $request->input('from_address'),
             'from_name' => $request->input('from_name'),
         ];
 
-        // jiny/auth/config/mail.php 파일에 저장
-        $configPath = base_path('jiny/auth/config/mail.php');
+        // JSON 설정 파일로 저장
+        $configPath = base_path('jiny/mail/config/mail.json');
 
         // 디렉토리가 없으면 생성
         if (!file_exists(dirname($configPath))) {
             mkdir(dirname($configPath), 0755, true);
         }
 
-        // PHP 설정 파일 내용 생성
-        $content = "<?php\n\n";
-        $content .= "/**\n";
-        $content .= " * Auth Mail Configuration\n";
-        $content .= " * \n";
-        $content .= " * 이 파일은 jiny-auth 관리자 패널에서 자동으로 생성됩니다.\n";
-        $content .= " * 수동으로 편집하지 마세요.\n";
-        $content .= " */\n\n";
-        $content .= "return " . var_export($data, true) . ";\n";
+        // JSON으로 직렬화하여 저장
+        // 주의: JSON은 주석을 허용하지 않으므로 메타 설명은 코드 주석으로만 남깁니다.
+        $content = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         File::put($configPath, $content);
 
@@ -123,13 +138,13 @@ class AuthMailSetting extends Controller
 
         $testEmail = $request->input('test_email');
 
-        // jiny/auth/config/mail.php 파일에서 직접 읽기
-        $configPath = base_path('jiny/auth/config/mail.php');
-        if (file_exists($configPath)) {
-            $authMailConfig = include $configPath;
-        } else {
-            // 파일이 없으면 기본 config 사용
-            $authMailConfig = config('admin.mail', [
+        // JSON 설정만 사용. 없으면 기본 템플릿을 생성하여 초기화
+        $jsonConfigPath = base_path('jiny/mail/config/mail.json');
+        if (!file_exists($jsonConfigPath) || trim((string) @File::get($jsonConfigPath)) === '') {
+            if (!file_exists(dirname($jsonConfigPath))) {
+                mkdir(dirname($jsonConfigPath), 0755, true);
+            }
+            $default = [
                 'mailer' => 'smtp',
                 'host' => 'smtp.mailgun.org',
                 'port' => 587,
@@ -138,32 +153,15 @@ class AuthMailSetting extends Controller
                 'encryption' => 'tls',
                 'from_address' => 'hello@example.com',
                 'from_name' => 'Example',
-            ]);
+            ];
+            File::put($jsonConfigPath, json_encode($default, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         }
+        $jsonString = File::get($jsonConfigPath);
+        $authMailConfig = json_decode($jsonString, true) ?: [];
 
-        // 런타임 메일 설정 적용 - .env 값이 아닌 저장된 설정 사용
-        config([
-            'mail.default' => $authMailConfig['mailer'],
-            'mail.mailers.smtp.host' => $authMailConfig['host'],
-            'mail.mailers.smtp.port' => $authMailConfig['port'],
-            'mail.mailers.smtp.username' => $authMailConfig['username'],
-            'mail.mailers.smtp.password' => $authMailConfig['password'],
-            'mail.mailers.smtp.encryption' => $authMailConfig['encryption'] === 'null' ? null : $authMailConfig['encryption'],
-            'mail.from.address' => $authMailConfig['from_address'],
-            'mail.from.name' => $authMailConfig['from_name'],
-        ]);
-
-        // 메일러가 smtp가 아닌 경우 추가 설정
-        if ($authMailConfig['mailer'] !== 'smtp') {
-            switch ($authMailConfig['mailer']) {
-                case 'sendmail':
-                    config(['mail.mailers.sendmail.path' => '/usr/sbin/sendmail -bs']);
-                    break;
-                case 'log':
-                    config(['mail.mailers.log.channel' => env('MAIL_LOG_CHANNEL', 'mail')]);
-                    break;
-            }
-        }
+        // UserMail 파사드를 통해 런타임 메일 설정 적용
+        // - .env가 아닌 JSON 설정값을 그대로 적용합니다.
+        UserMail::applyConfig($authMailConfig);
 
         // 메일 로그 기록 준비
         $subject = '[Jiny-Auth 테스트] 인증 메일 설정 테스트';
@@ -185,16 +183,10 @@ class AuthMailSetting extends Controller
             'attempts' => 1,
         ]);
 
-        try {
-            // EmailMailable 사용하여 메일 발송
-            Mail::to($testEmail)->send(new EmailMailable(
-                $subject,
-                $content,
-                $authMailConfig['from_address'],
-                $authMailConfig['from_name'],
-                $testEmail
-            ));
+        // UserMail 파사드로 테스트 메일 발송
+        $result = UserMail::sendByHtml($testEmail, $subject, $content, null, $authMailConfig);
 
+        if ($result['success'] ?? false) {
             // 발송 성공 시 로그 업데이트
             $mailLog->update([
                 'status' => AuthMailLog::STATUS_SENT,
@@ -204,25 +196,25 @@ class AuthMailSetting extends Controller
                 'success' => true,
                 'message' => "테스트 이메일이 {$testEmail}로 발송되었습니다. 수신함을 확인해주세요."
             ]);
-        } catch (\Exception $e) {
-            // 발송 실패 시 로그 업데이트
-            $mailLog->update([
-                'status' => AuthMailLog::STATUS_FAILED,
-                'error_message' => $e->getMessage(),
-            ]);
-
-            \Log::error('Auth 메일 테스트 실패: ' . $e->getMessage(), [
-                'exception' => $e,
-                'auth_mail_config' => $authMailConfig,
-                'test_email' => $testEmail,
-                'mail_log_id' => $mailLog->id
-            ]);
-
-            return response()->json([
-                'success' => false,
-                'message' => '테스트 이메일 발송 실패: ' . $e->getMessage()
-            ], 500);
         }
+
+        // 발송 실패 시 로그 업데이트
+        $errorMessage = $result['message'] ?? 'Unknown error';
+        $mailLog->update([
+            'status' => AuthMailLog::STATUS_FAILED,
+            'error_message' => $errorMessage,
+        ]);
+
+        \Log::error('Auth 메일 테스트 실패: ' . $errorMessage, [
+            'auth_mail_config' => $authMailConfig,
+            'test_email' => $testEmail,
+            'mail_log_id' => $mailLog->id
+        ]);
+
+        return response()->json([
+            'success' => false,
+            'message' => '테스트 이메일 발송 실패: ' . $errorMessage
+        ], 500);
     }
 
     /**
@@ -286,3 +278,5 @@ class AuthMailSetting extends Controller
         return $html;
     }
 }
+
+

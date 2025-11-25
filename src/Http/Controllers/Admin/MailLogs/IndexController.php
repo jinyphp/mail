@@ -1,6 +1,6 @@
 <?php
 
-namespace Jiny\Mail\Http\Controllers\Admin\Mail\MailLogs;
+namespace Jiny\Mail\Http\Controllers\Admin\MailLogs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -36,19 +36,15 @@ class IndexController extends Controller
         if ($filters['type']) {
             $query->where('type', $filters['type']);
         }
-
         if ($filters['status']) {
             $query->where('status', $filters['status']);
         }
-
         if ($filters['date_from']) {
             $query->whereDate('created_at', '>=', $filters['date_from']);
         }
-
         if ($filters['date_to']) {
             $query->whereDate('created_at', '<=', $filters['date_to']);
         }
-
         if ($filters['search']) {
             $query->where(function ($q) use ($filters) {
                 $q->where('recipient_email', 'like', '%' . $filters['search'] . '%')
@@ -61,7 +57,7 @@ class IndexController extends Controller
         $perPage = $request->get('per_page', 20);
         $mailLogs = $query->paginate($perPage);
 
-        // 통계 정보 (Eloquent 모델 사용)
+        // 통계 정보
         $stats = [
             'total' => AuthMailLog::count(),
             'sent' => AuthMailLog::where('status', 'sent')->count(),
@@ -79,3 +75,5 @@ class IndexController extends Controller
         ]);
     }
 }
+
+

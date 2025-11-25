@@ -1,6 +1,6 @@
 <?php
 
-namespace Jiny\Mail\Http\Controllers\Admin\Mail\Template;
+namespace Jiny\Mail\Http\Controllers\Admin\Template;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
@@ -30,3 +30,5 @@ class DeleteController extends Controller
             ->with('success', "'{$templateName}' 템플릿이 삭제되었습니다.");
     }
 }
+
+

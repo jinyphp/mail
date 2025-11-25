@@ -1,0 +1,10 @@
+{
+    "mailer": "smtp",
+    "host": "sandbox.smtp.mailtrap.io",
+    "port": 2525,
+    "username": "d38959c154f7fd",
+    "password": "253b3dde097096",
+    "encryption": "tls",
+    "from_address": "hello@example.com",
+    "from_name": "Example"
+}

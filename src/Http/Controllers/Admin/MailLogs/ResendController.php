@@ -1,6 +1,6 @@
 <?php
 
-namespace Jiny\Mail\Http\Controllers\Admin\Mail\MailLogs;
+namespace Jiny\Mail\Http\Controllers\Admin\MailLogs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -118,3 +118,5 @@ class ResendController extends Controller
         }
     }
 }
+
+

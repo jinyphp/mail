@@ -1,6 +1,6 @@
 <?php
 
-namespace Jiny\Mail\Http\Controllers\Admin\Mail\MailLogs;
+namespace Jiny\Mail\Http\Controllers\Admin\MailLogs;
 
 use App\Http\Controllers\Controller;
 use Jiny\Mail\Models\AuthMailLog;
@@ -18,9 +18,6 @@ class ContentController extends Controller
     public function __invoke($id)
     {
         $mailLog = AuthMailLog::findOrFail($id);
-
-        // 조회 시 읽음 카운트 증가 (선택적)
-        // $mailLog->increment('read_count');
 
         // HTML 컨텐츠를 그대로 반환
         if ($mailLog->content) {
@@ -61,3 +58,5 @@ class ContentController extends Controller
             ->header('Content-Type', 'text/html; charset=utf-8');
     }
 }
+
+

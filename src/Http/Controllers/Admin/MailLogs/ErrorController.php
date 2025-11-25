@@ -1,6 +1,6 @@
 <?php
 
-namespace Jiny\Mail\Http\Controllers\Admin\Mail\MailLogs;
+namespace Jiny\Mail\Http\Controllers\Admin\MailLogs;
 
 use App\Http\Controllers\Controller;
 use Jiny\Mail\Models\AuthMailLog;
@@ -34,3 +34,5 @@ class ErrorController extends Controller
         ]);
     }
 }
+
+

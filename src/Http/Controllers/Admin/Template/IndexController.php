@@ -1,6 +1,6 @@
 <?php
 
-namespace Jiny\Mail\Http\Controllers\Admin\Mail\Template;
+namespace Jiny\Mail\Http\Controllers\Admin\Template;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
@@ -53,3 +53,5 @@ class IndexController extends Controller
         ]);
     }
 }
+
+
